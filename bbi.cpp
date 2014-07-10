@@ -1,29 +1,16 @@
-/*
- * bbi.cpp
- *
- *  Created on: 2014. 7. 2.
- *      Author: baekwon.choi
- */
-#include <iostream>
-using namespace std;
+/***********************************************************************/
+/*    filename:bbi.cpp 메인 처리                                      */
+/*    BBI 인터프리터 (Rev 1.01) Copyright (c) 2011 Haruhiko Hayashi   */
+/***********************************************************************/
+#include "bbi.h"
+#include "bbi_prot.h"
 
-void convert()
+int main(int argc, char *argv[])
 {
-	cout << "convert OK." << endl;
-}
-
-void execute()
-{
-	cout << "execute OK." << endl;
-}
-
-int main (void)
-{
-	convert();
+	if (argc == 1) { cout << "용법: bbi filename\n"; exit(1); }
+	convert_to_internalCode(argv[1]);
+	syntaxChk();
 	execute();
-
 	return 0;
 }
-
-
 
