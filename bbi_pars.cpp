@@ -1,20 +1,20 @@
 /**********************************************************/
 /*    filename:bbi_pars.cpp 구문분석                      */
 /**********************************************************/
-#include "bbi.h"
-#include "bbi_prot.h"
+#include	"bbi.h"
+#include	"bbi_prot.h"
 
-#define NO_FIX_ADRS 0                                 /* 아직 주소 미정 표시 */
-Token token;                                          /* 현재 처리중인 토큰  */
-SymTbl tmpTb;                                       /* 임시 저장 심볼 테이블 */
-int blkNest;                                                /* 블록의 깊이   */
-int localAdrs;                                        /* 로컬 변수 주소 관리 */
-int mainTblNbr;                     /* main 함수가 있으면 그 심볼 테이블 위치*/
-int loopNest;                                                 /* 루프 네스트 */
-bool fncDecl_F;                                  /* 함수 정의 처리 중이면 참 */
-bool explicit_F;                                    /* 참이면 변수 선언 강제 */
-char codebuf[LIN_SIZ+1], *codebuf_p;                /* 내부 코드 생성 작업용 */
-extern vector<char*> intercode;                /* 변환을 마친 내부 코드 저장 */
+#define NO_FIX_ADRS 0                                     /* 아직 주소 미정 표시 */
+Token	token;                                            /* 현재 처리중인 토큰  */
+SymTbl	tmpTb;                                           /* 임시 저장 심볼 테이블 */
+int		blkNest;                                                /* 블록의 깊이   */
+int		localAdrs;                                        /* 로컬 변수 주소 관리 */
+int		mainTblNbr;                     /* main 함수가 있으면 그 심볼 테이블 위치*/
+int		loopNest;                                                 /* 루프 네스트 */
+bool	fncDecl_F;                                  /* 함수 정의 처리 중이면 참 */
+bool	explicit_F;                                    /* 참이면 변수 선언 강제 */
+char	codebuf[LIN_SIZ+1], *codebuf_p;                /* 내부 코드 생성 작업용 */
+extern	vector<char*> intercode;                /* 변환을 마친 내부 코드 저장 */
 
 void init() /* 초깃값 설정 */
 {
@@ -29,7 +29,7 @@ void convert_to_internalCode(char *fname) /* 코드 변환 */
 {
 	init();                                               /* 문자 종류표 등 초기화  */
 
-	// 함수 정의 이름만 먼저 등록 
+	// 함수 정의 이름만 먼저 등록
 	fileOpen(fname);
 	while (token=nextLine_tkn(), token.kind != EofProg) {
 		if (token.kind == Func) {
@@ -37,7 +37,7 @@ void convert_to_internalCode(char *fname) /* 코드 변환 */
 		}
 	}
 
-	// 내부 코드로 변환 
+	// 내부 코드로 변환
 	push_intercode();                                /* 0행째는 필요 없으므로 매운다  */
 	fileOpen(fname);
 	token = nextLine_tkn();
@@ -45,7 +45,7 @@ void convert_to_internalCode(char *fname) /* 코드 변환 */
 		convert();                                            /* 내부 코드로 변환 */
 	}
 
-	// main 함수가 있으면 메인 함수 호출 코드를 설정 
+	// main 함수가 있으면 메인 함수 호출 코드를 설정
 	set_startPc(1);                                        /* 1행부터 실행 시작  */
 	if (mainTblNbr != -1) {
 		set_startPc(intercode.size());                        /* main에서부터 실행 시작 */
