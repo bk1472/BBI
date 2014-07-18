@@ -5,7 +5,15 @@
 extern "C" {
 #endif
 
-extern FILE*	srcFileOpen(char* fileName);
+typedef struct _f_info_
+{
+	int		line;
+	char	*pBuf;
+} FILE_INFO_T;
+
+extern FILE_INFO_T	getLine				(void);
+extern FILE*		srcFileOpen			(char* fileName);
+extern void			srcFileclose		(void);
 
 #ifdef __cplusplus
 }

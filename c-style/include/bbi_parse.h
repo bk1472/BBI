@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-extern void		parse_code		(FILE *fp);
+extern void		parse_code		(char *fname);
 
 #ifdef __cplusplus
 }

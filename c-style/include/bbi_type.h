@@ -20,6 +20,19 @@ typedef signed short		SINT16;
 typedef signed long			SINT32;
 typedef signed long long	SINT64;
 
+#define	BOOLEAN				int
+
+#ifdef FALSE
+#undef FALSE
+#endif
+
+#ifdef TRUE
+#undef TRUE
+#endif
+
+#define FALSE				0
+#define TRUE				1
+
 #ifdef __cplusplus
 }
 #endif

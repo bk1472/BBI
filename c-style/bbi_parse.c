@@ -1,66 +1,28 @@
 #include	"bbi_type.h"
 #include	"bbi_fio.h"
 #include	"bbi_parse.h"
+#include	"bbi_token.h"
 
-#define LINE_SIZE		(500)
-
-#define CR				(0x0d)
-#define LF				(0x0a)
-#define TAB				(0x09)
-#define SPACE			(0x20)
-
-static char lineBuf[LINE_SIZE];
-
-static int readline (char *pBuf, int maxLineSize, FILE *fp)
+void parse_code (char *fname)
 {
-	static int	lineNum  = 0;
-	int			lineByte = 0;
-	char*		tmpBuf   = pBuf;
+	BOOLEAN		break_cond = FALSE;
+	TOKEN_T		*pToken    = NULL;
 
+	initChtype();
 
-	while (1)
-	{
-		char c = (char)fgetc(fp);
+	srcFileOpen(fname);
+	do {
+		pToken = getLine_token();
+		break_cond = (pToken->tokKind == E_OF_PROG)?TRUE:FALSE;
 
-		if (c == EOF)
+		if (pToken->tokKind == FUNC)
 		{
-			lineNum = 0;
-			return -1;
+			/*TODO: Function인 경우만 우선 symbol Table에 등록 한다.*/
+			printf("[Func]%-10s : [%03d] [%03.8f]\n", pToken->pText, pToken->tokKind, pToken->dblVal);
+			release_token(pToken);
+			pToken = get_token();
+			printf("      %-10s : [%03d] [%03.8f]\n", pToken->pText, pToken->tokKind, pToken->dblVal);
 		}
-
-		if (c == CR)
-		{
-			c = (char)fgetc(fp);
-			break;
-		}
-
-		*(tmpBuf++) = c;
-		lineByte++;
-		if(lineByte > maxLineSize)
-		{
-			fprintf(stderr, "Line Buffer Max Size %d !\n", maxLineSize);
-			exit(-1); //TODO : 나중에 통합 에러 핸들링을 해야 함.
-			//return -2;
-		}
-	}
-	*(tmpBuf++) = '\0';
-
-	lineNum++;
-
-
-	return (lineNum);
-}
-
-void parse_code (FILE *fp)
-{
-	int line = 0;
-
-	while (1)
-	{
-		line = readline(&lineBuf[0], LINE_SIZE, fp);
-
-		fprintf(stdout, "%s\n", &lineBuf[0]);
-		if (line == -1)
-			break;
-	}
+		release_token(pToken);
+	} while (break_cond == FALSE);
 }
