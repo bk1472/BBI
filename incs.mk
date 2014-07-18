@@ -1,6 +1,5 @@
 .PHONY : ccdv tags
 
-
 ifeq ($(OSTYPE), cygwin)
 EXE			 = .exe
 else
