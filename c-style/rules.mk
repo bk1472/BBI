@@ -1,7 +1,7 @@
 #######################################################################
 # Common Rules
 #######################################################################
-.PHONY: depend clean clobber
+.PHONY: depend clean clobber distclean
 
 
 clean:
@@ -10,6 +10,9 @@ clean:
 clobber: clean
 	@$(RMDIR) $(OBJ_DIR)
 	@$(RM) $(TGT)
+
+distclean: clobber ccclean
+	@$(RM) tags
 
 $(OBJ_DIR)/%.d : %.cpp
 	@$(ECHO) "+++++++++ Making $(notdir $@)"
@@ -61,3 +64,6 @@ $(CCDV): $(UTIL_DIR)/ccdv.src/ccdv.c $(UTIL_DIR)/ccdv.src/sift-warn.c
 ifeq ($(MAKELEVEL), 0)
 	@$(MAKE) -C $(UTIL_DIR)/ccdv.src
 endif
+
+ccclean:
+	@$(MAKE) -C $(UTIL_DIR)/ccdv.src clean

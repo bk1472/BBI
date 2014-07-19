@@ -19,4 +19,5 @@ $(TARGET): $(OBJS)
 	@$(CC) -c -o $@ $^
 
 clobber clean:
+	@$(RM) *.o
 	@$(RM) $(TARGET)
