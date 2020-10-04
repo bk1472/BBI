@@ -24,3 +24,4 @@ all :  $(TGT)
 
 
 include	$(TOP_DIR)/rules.mk
+.PHONY: $(TGT)

@@ -59,7 +59,7 @@ static void DumpFormattedOutput(void)
 		int	rc;
 
 		if ((gDumpCmdArgs > 0) || (nVerbose > 0))
-			printf("%*.*s", len, len, gBuf);
+			printf("%*.*s", (int)len, (int)len, gBuf);
 		if (siftWarnMain(cmdName, gBuf+strlen(gArgsStr)) != 0)
 			gExitStatus = 90;
 	}
@@ -151,10 +151,10 @@ static void SlurpTitle(char *s1, size_t len, char *tail)
 			if (cp == NULL) cp = gTarget + len;
 			else            len = cp - gTarget;
 
-			if      (gCcOpt == 1) snprintf(gOutput, sizeof(gOutput), "%*.*s.o", len, len, gTarget);
-			else if (gCcOpt == 2) snprintf(gOutput, sizeof(gOutput), "%*.*s.i", len, len, gTarget);
-			else if (gCcOpt == 3) snprintf(gOutput, sizeof(gOutput), "%*.*s.s", len, len, gTarget);
-			else                  snprintf(gOutput, sizeof(gOutput), "%*.*s",   len, len, gTarget);
+			if      (gCcOpt == 1) snprintf(gOutput, sizeof(gOutput), "%*.*s.o", (int)len, (int)len, gTarget);
+			else if (gCcOpt == 2) snprintf(gOutput, sizeof(gOutput), "%*.*s.i", (int)len, (int)len, gTarget);
+			else if (gCcOpt == 3) snprintf(gOutput, sizeof(gOutput), "%*.*s.s", (int)len, (int)len, gTarget);
+			else                  snprintf(gOutput, sizeof(gOutput), "%*.*s",   (int)len, (int)len, gTarget);
 		}
 		snprintf(s1, len, "%s %-32s from %s%s", gAction, gOutput, gTarget, tail);
 	}
@@ -277,7 +277,7 @@ static int SlurpAll(int fd)
 	ssize_t nread;
 
 	SlurpTitle(s1, sizeof(s1), "\n");
-	printf(s1);
+	printf("%s",s1);
 	fflush(stdout);
 
 	for(;;)
@@ -357,7 +357,7 @@ static void Usage(void)
 			"  -- John F Meinel Jr, <http://ccdv.sourceforge.net>\n"
 			"  -- Jackee, Lee, jackee@lge.com"
 			"  ";
-	fprintf(stderr, sUsage);
+	fprintf(stderr, "%s", sUsage);
 	exit(96);
 }	/* Usage */
 

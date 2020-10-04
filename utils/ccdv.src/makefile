@@ -20,3 +20,4 @@ $(TARGET): $(OBJS)
 
 clobber clean:
 	@$(RM) $(TARGET)
+	@$(RM) $(OBJS)

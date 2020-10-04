@@ -46,5 +46,5 @@ endif
 
 $(CCDV): $(UTIL_DIR)/ccdv.src/ccdv.c $(UTIL_DIR)/ccdv.src/sift-warn.c
 ifeq ($(MAKELEVEL), 0)
-	@$(MAKE) -C $(UTIL_DIR)/ccdv.src
+	@($(MAKE) -C $(UTIL_DIR)/ccdv.src > /dev/null 2>&1)
 endif
